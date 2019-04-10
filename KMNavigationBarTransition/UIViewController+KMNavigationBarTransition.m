@@ -31,22 +31,22 @@
 
 @implementation UIViewController (KMNavigationBarTransition)
 
-+ (void)load {
+__attribute__((constructor)) static void initialize_UIViewController(void) {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        KMSwizzleMethod([self class],
+        KMSwizzleMethod([UIViewController class],
                         @selector(viewWillLayoutSubviews),
-                        [self class],
+                        [UIViewController class],
                         @selector(km_viewWillLayoutSubviews));
         
-        KMSwizzleMethod([self class],
+        KMSwizzleMethod([UIViewController class],
                         @selector(viewWillAppear:),
-                        [self class],
+                        [UIViewController class],
                         @selector(km_viewWillAppear:));
         
-        KMSwizzleMethod([self class],
+        KMSwizzleMethod([UIViewController class],
                         @selector(viewDidAppear:),
-                        [self class],
+                        [UIViewController class],
                         @selector(km_viewDidAppear:));
     });
 }

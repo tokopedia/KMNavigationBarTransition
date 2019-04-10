@@ -29,12 +29,12 @@
 
 @implementation NSObject (KMNavigationBarTransition)
 
-+ (void)load {
+__attribute__((constructor)) static void initialize_NSObject(void) {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         KMSwizzleMethod(objc_getClass("_UIBarBackground"),
                         @selector(setHidden:),
-                        [self class],
+                        [NSObject class],
                         @selector(km_setHidden:));
     });
 }

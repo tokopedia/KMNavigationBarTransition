@@ -31,32 +31,32 @@
 
 @implementation UINavigationController (KMNavigationBarTransition)
 
-+ (void)load {
+__attribute__((constructor)) static void initialize_UINavigationController(void) {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        KMSwizzleMethod([self class],
+        KMSwizzleMethod([UINavigationController class],
                         @selector(pushViewController:animated:),
-                        [self class],
+                        [UINavigationController class],
                         @selector(km_pushViewController:animated:));
         
-        KMSwizzleMethod([self class],
+        KMSwizzleMethod([UINavigationController class],
                         @selector(popViewControllerAnimated:),
-                        [self class],
+                        [UINavigationController class],
                         @selector(km_popViewControllerAnimated:));
         
-        KMSwizzleMethod([self class],
+        KMSwizzleMethod([UINavigationController class],
                         @selector(popToViewController:animated:),
-                        [self class],
+                        [UINavigationController class],
                         @selector(km_popToViewController:animated:));
         
-        KMSwizzleMethod([self class],
+        KMSwizzleMethod([UINavigationController class],
                         @selector(popToRootViewControllerAnimated:),
-                        [self class],
+                        [UINavigationController class],
                         @selector(km_popToRootViewControllerAnimated:));
         
-        KMSwizzleMethod([self class],
+        KMSwizzleMethod([UINavigationController class],
                         @selector(setViewControllers:animated:),
-                        [self class],
+                        [UINavigationController class],
                         @selector(km_setViewControllers:animated:));
     });
 }

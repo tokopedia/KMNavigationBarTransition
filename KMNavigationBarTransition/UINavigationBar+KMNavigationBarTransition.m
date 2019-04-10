@@ -28,12 +28,12 @@
 @implementation UINavigationBar (KMNavigationBarTransition)
 
 #ifdef __IPHONE_11_0
-+ (void)load {
+__attribute__((constructor)) static void initialize_UINavigationBar(void) {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        KMSwizzleMethod([self class],
+        KMSwizzleMethod([UINavigationBar class],
                         @selector(layoutSubviews),
-                        [self class],
+                        [UINavigationBar class],
                         @selector(km_layoutSubviews));
     });
 }
