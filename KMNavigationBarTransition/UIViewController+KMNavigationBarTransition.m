@@ -98,7 +98,14 @@ __attribute__((constructor)) static void initialize_UIViewController(void) {
         toViewController.view.clipsToBounds = NO;
         if (!self.km_transitionNavigationBar) {
             [self km_addTransitionNavigationBarIfNeeded];
-            self.navigationController.km_backgroundViewHidden = YES;
+            NSString *className = NSStringFromClass([self class]);
+            NSString *uiViewControllerClassName = NSStringFromClass([UIViewController class]);
+            if ([className isEqualToString:uiViewControllerClassName]) {
+                self.navigationController.km_backgroundViewHidden = YES;
+            }
+            else {
+                self.navigationController.km_backgroundViewHidden = self.navigationController.navigationBarHidden || self.navigationController.navigationBar.isHidden;
+            }
         }
         [self km_resizeTransitionNavigationBarFrame];
     }
